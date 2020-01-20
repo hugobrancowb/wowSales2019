@@ -1,0 +1,100 @@
+type,amount,otherPlayer,player,time
+Postage,270,Robso,Nuzia,1572278830
+Postage,960,Nuzia,Robso,1572280131
+Postage,1950,Nuzia,Robso,1572282211
+Repair Bill,469842,Merchant,Robsö,1572487868
+Repair Bill,34072,Merchant,Robsö,1572491722
+Repair Bill,326400,Merchant,Robsö,1572535407
+Repair Bill,58768,Merchant,Robsö,1572536465
+Repair Bill,102281,Merchant,Nuzia,1572561204
+Repair Bill,102853,Merchant,Robsö,1572821384
+Repair Bill,78238,Merchant,Robsö,1572822558
+Postage,30,Robsö,Nuzia,1572880193
+Repair Bill,28301,Merchant,Nuzia,1573190947
+Repair Bill,2485407,Merchant,Nuzia,1573410612
+Repair Bill,1418246,Merchant,Nuzia,1573496697
+Repair Bill,574333,Merchant,Nuzia,1573498300
+Repair Bill,1423882,Merchant,Nuzia,1573500778
+Postage,30,Nuzia,Nullzia,1574187309
+Repair Bill,7566,Merchant,Nullzia,1574307949
+Repair Bill,1760,Merchant,Nullzia,1577059610
+Postage,30,Robsö,Nuzia,1579045103
+Repair Bill,78168,Merchant,Nuzia,1577709622
+Repair Bill,676146,Merchant,Nuzia,1579060734
+Repair Bill,2260659,Merchant,Nuzia,1579136137
+Repair Bill,149660,Merchant,Nuzia,1579139696
+Repair Bill,42613,Merchant,Nuzia,1579152069
+Repair Bill,51462,Merchant,Nuzia,1579195128
+Repair Bill,114293,Merchant,Nuzia,1579196376
+Postage,270,Robso,Nuzia,1579212161
+Postage,210,Robso,Nuzia,1579215700
+Repair Bill,68963,Merchant,Nuzia,1579049960
+Repair Bill,6891,Merchant,Nuzia,1579265295
+Repair Bill,517804,Merchant,Nuzia,1579263894
+Repair Bill,1514705,Merchant,Robso,1579212842
+Repair Bill,25970,Merchant,Nuzia,1579299271
+Repair Bill,1244911,Merchant,Nuzia,1579304178
+Repair Bill,1127118,Merchant,Nuzia,1579306500
+Postage,90,Nuzia,Creacher,1579320918
+Repair Bill,1252076,Merchant,Nuzia,1579347725
+Postage,150,Robso,Creacher,1579320949
+Money Transfer,46863748,Nuzia,Creacher,1579320918
+Repair Bill,45502,Merchant,Nuzia,1579388986
+Repair Bill,49935,Merchant,Nuzia,1579390484
+Postage,270,Robso,Nuzia,1579432320
+Repair Bill,46159,Merchant,Robso,1579439158
+Repair Bill,20519,Merchant,Nullzia,1579529357
+Repair Bill,3718114,Merchant,Creacher,1579320877
+Repair Bill,11472,Merchant,Nuzia,1579297131
+Repair Bill,2020663,Merchant,Robso,1579278288
+Money Transfer,2470569,Nuzia,Robso,1579278303
+Postage,450,Nuzia,Robso,1579278278
+Repair Bill,181339,Merchant,Robso,1579382898
+Repair Bill,149500,Merchant,Robso,1579386668
+Money Transfer,778969,Nuzia,Robso,1579388768
+Repair Bill,205356,Merchant,Nuzia,1579409244
+Repair Bill,540565,Merchant,Nuzia,1579537355
+Postage,30,Robsö,Nuzia,1579453557
+Postage,4800,Nuzia,Robso,1579433215
+Repair Bill,1188356,Merchant,Nuzia,1579406239
+Postage,30,Nuzia,Robso,1579388768
+Repair Bill,1641774,Merchant,Robso,1579388749
+Postage,180,Nuzia,Robso,1579383095
+Repair Bill,3095046,Merchant,Nuzia,1579326648
+Postage,180,Nuzia,Robso,1579265914
+Postage,90,Robso,Nuzia,1579320535
+Repair Bill,809379,Merchant,Robso,1579300218
+Money Transfer,1092788,Nuzia,Robso,1579268645
+Postage,30,Nuzia,Robso,1579268645
+Money Transfer,4717,Nuzia,Robso,1579265941
+Postage,510,Nuzia,Robso,1579216126
+Postage,750,Nuzia,Robso,1579216633
+Postage,660,Nuzia,Robso,1579213453
+Postage,330,Nuzia,Robso,1579212863
+Repair Bill,91002,Merchant,Nuzia,1579208378
+Repair Bill,1577017,Merchant,Nuzia,1579187146
+Postage,30,Nuzia-Proudmoore,Nuzia,1579151372
+Repair Bill,165550,Merchant,Nuzia,1579150145
+Postage,30,Robsö,Nuzia,1579117642
+Repair Bill,854399,Merchant,Nuzia,1579056460
+Repair Bill,74078,Merchant,Nuzia,1579051109
+Repair Bill,640256,Merchant,Nuzia,1579041154
+Repair Bill,97375,Merchant,Nullzia,1577136281
+Repair Bill,1736,Merchant,Nullzia,1574309079
+Repair Bill,32956,Merchant,Nullzia,1574187049
+Repair Bill,234,Merchant,Nullzia,1573710878
+Repair Bill,2921598,Merchant,Nuzia,1573499229
+Repair Bill,9722,Merchant,Nullzia,1573437534
+Repair Bill,11258,Merchant,Nullzia,1573316513
+Repair Bill,1212563,Merchant,Nuzia,1573188860
+Postage,1290,Nuzia,Robso,1572922558
+Repair Bill,157932,Merchant,Robsö,1572831457
+Repair Bill,1974230,Merchant,Nuzia,1572756028
+Repair Bill,2320993,Merchant,Nuzia,1572559948
+Repair Bill,145984,Merchant,Robsö,1572551198
+Repair Bill,4809011,Merchant,Nuzia,1572495267
+Repair Bill,169135,Merchant,Robsö,1572490073
+Repair Bill,508087,Merchant,Robsö,1572297186
+Postage,900,Nuzia,Robso,1572281575
+Postage,30,Nuzia,Robso,1572279650
+Money Transfer,100000000,Robso,Nuzia,1572278846
