@@ -9,7 +9,7 @@ from models import Transaction, transactionFromJSON
 
 allSales = []
 
-def importingSales():
+def importingSales(maxItems):
     # Vendas realizadas  =  Lucro bruto
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
@@ -61,7 +61,7 @@ def importingSales():
             
             allSales.append(transaction)
             
-            if (counter >= 5): break
+            if (counter >= maxItems): break
             else: counter = counter + 1
 
 def saveJSONfile():
@@ -82,7 +82,7 @@ def main():
     except:
         print("A NEW JSON FILE WILL BE CREATED FROM SCRATCH.")
         
-    importingSales()
+    importingSales(16)
     saveJSONfile()
 
 main()
