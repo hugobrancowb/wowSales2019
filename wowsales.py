@@ -3,7 +3,6 @@
 # GitHub: hugobrancowb
 
 import csv
-import os
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
@@ -44,8 +43,6 @@ def importingSales(maxItems):
                 time = time.split("T")
                 time = time[0]
             else: continue
-
-            print("{}\t {}\t{}\t{}\t{}".format(itemName[0:15],quantity,price,time,source))
 
             transaction = Transaction(
                     itemName,
@@ -112,7 +109,18 @@ def main(allSales):
             if int(option) == 2:
                 print("", end="")
             if int(option) == 3:
-                print("", end="")
+                try:
+                    with open('allsales.json', encoding='utf-8') as jsonFile:
+                        data = json.load(jsonFile)
+                        allSales = []
+                        for info in data["Transactions"]:
+                            allSales.append(transactionFromJSON(info))
+
+                        print("")
+                        for row in allSales:
+                            print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
+                except:
+                    print("Couldnt find JSON file.")
             if int(option) == 4:
                 try:
                     open('allsales.json', 'w', encoding='utf-8').close()
