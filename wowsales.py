@@ -14,11 +14,11 @@ def importingSales():
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
         print('')
-        for i, row in enumerate(reader):
-            if i == 0: continue
-            if i >= 5: break
-
-            print(', '.join(row))
+        counter = 0
+        for row in reader:
+            if counter == 0:
+                counter = counter + 1
+                continue
 
             # itemString = row[0]
             itemName = row[1]
@@ -26,17 +26,22 @@ def importingSales():
             quantity = row[3]
             price = row[4]
             # otherPlayer = row[5]
-            player = row[6]
+            player = row[6]            
+            source = row[8]
 
             time = datetime.utcfromtimestamp(int(row[7]))
             
+            # filter only auctions
+            if source != "Auction": continue
+
             # filter only 2019 transactions
             if (time.year == 2019):
                 time = time.isoformat()
                 time = time.split("T")
                 time = time[0]
-                source = row[8]
             else: continue
+
+            print("{}\t {}\t{}\t{}\t{}\t{}".format(itemName[0:15],quantity,price,player,time,source))
 
             transaction = Transaction(
                     itemName,
@@ -46,19 +51,18 @@ def importingSales():
                     time,
                     source
                 )
-            exists = False
             for sale in allSales:
-                if exists           == True:                 break
-                if sale.itemName    != transaction.itemName: continue
-                if sale.quantity    != transaction.quantity: continue
-                if sale.price       != transaction.price:    continue
-                if sale.player      != transaction.player:   continue
-                if sale.time        != transaction.time:     continue
-                if sale.source      != transaction.source:   continue
-                exists = True
+                if sale.itemName    == transaction.itemName: continue
+                if sale.quantity    == transaction.quantity: continue
+                if sale.price       == transaction.price:    continue
+                if sale.player      == transaction.player:   continue
+                if sale.time        == transaction.time:     continue
+                if sale.source      == transaction.source:   continue
             
-            if not exists:
-                allSales.append(transaction)
+            allSales.append(transaction)
+            
+            if (counter >= 5): break
+            else: counter = counter + 1
 
 def saveJSONfile():
     with open('allsales.json', 'w') as jsonFile:
