@@ -24,7 +24,7 @@ def importingSales(maxItems):
             itemName = row[1]
             # stackSize = row[2]
             quantity = row[3]
-            price = row[4]
+            price = row[4] # preço, em cobres, por UNIDADE vendida. para total tem que multiplicar pela quantidade
             # otherPlayer = row[5]
             player = row[6]            
             source = row[8]
@@ -33,6 +33,9 @@ def importingSales(maxItems):
             
             # filter only auctions
             if source != "Auction": continue
+
+            # filter invalid product name
+            if itemName == "?": continue
 
             # filter only 2019 transactions
             if (time.year == 2019):
@@ -51,15 +54,18 @@ def importingSales(maxItems):
                     time,
                     source
                 )
+
+            exists = False
             for sale in allSales:
-                if sale.itemName    == transaction.itemName: continue
-                if sale.quantity    == transaction.quantity: continue
-                if sale.price       == transaction.price:    continue
-                if sale.player      == transaction.player:   continue
-                if sale.time        == transaction.time:     continue
-                if sale.source      == transaction.source:   continue
+                if sale.itemName    != transaction.itemName: continue
+                if sale.quantity    != transaction.quantity: continue
+                if sale.price       != transaction.price:    continue
+                if sale.player      != transaction.player:   continue
+                if sale.time        != transaction.time:     continue
+                if sale.source      != transaction.source:   continue
+                exists               = True
             
-            allSales.append(transaction)
+            if not exists: allSales.append(transaction)
             
             if (counter >= maxItems): break
             else: counter = counter + 1
