@@ -3,6 +3,7 @@
 # GitHub: hugobrancowb
 
 import csv
+import os
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
@@ -44,7 +45,7 @@ def importingSales(maxItems):
                 time = time[0]
             else: continue
 
-            print("{}\t {}\t{}\t{}\t{}\t{}".format(itemName[0:15],quantity,price,player,time,source))
+            print("{}\t {}\t{}\t{}\t{}".format(itemName[0:15],quantity,price,time,source))
 
             transaction = Transaction(
                     itemName,
@@ -69,13 +70,13 @@ def importingSales(maxItems):
                                             if sale.source == transaction.source:
                                                 exists = True
             
-            if not exists: allSales.append(transaction)
+            if exists == False: allSales.append(transaction)
             
             if (counter >= maxItems): break
             else: counter = counter + 1
 
 def saveJSONfile():
-    with open('allsales.json', 'w') as jsonFile:
+    with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
         data = {}
         data["Transactions"] = []
         for operation in allSales:
@@ -83,16 +84,42 @@ def saveJSONfile():
         
         json.dump(data, jsonFile, sort_keys=True, indent=4)
 
-def main():
-    try:
-        with open('allsales.json') as jsonFile:
-            data = json.load(jsonFile)
-            for info in data["Transactions"]:
-                allSales.append(transactionFromJSON(info))
-    except:
-        print("A NEW JSON FILE WILL BE CREATED FROM SCRATCH.")
-        
-    importingSales(16)
-    saveJSONfile()
+def main(allSales):
+    while(True):
+        print("")
+        print("1. Update sales data.")
+        print("2. Plot data.")
+        print("3. Print sales record.")
+        print("4. Delete existing data.")
+        print("0. Exit.")
 
-main()
+        option = input()
+
+        if (int(option) > 4) | ((int(option) < 0)):
+            print("Entrada invalida")
+        else:            
+            if int(option) == 1:
+                try:
+                    with open('allsales.json', encoding='utf-8') as jsonFile:
+                        data = json.load(jsonFile)
+                        allSales = []
+                        for info in data["Transactions"]:
+                            allSales.append(transactionFromJSON(info))                
+                except:
+                    print("", end="")
+                importingSales(2)
+                saveJSONfile()
+            if int(option) == 2:
+                print("", end="")
+            if int(option) == 3:
+                print("", end="")
+            if int(option) == 4:
+                try:
+                    open('allsales.json', 'w', encoding='utf-8').close()
+                    print("\tjson file deleted.")
+                except:
+                    print("\tcouldnt find json file.")                
+            if int(option) == 0:
+                break
+######
+main(allSales)
