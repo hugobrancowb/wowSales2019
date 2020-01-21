@@ -1,5 +1,5 @@
 class Transaction:
-    def __init__(self, stackSize, itemName, quantity, price, otherPlayer, player, time, source):
+    def __init__(self, itemName, stackSize, quantity, price, otherPlayer, player, time, source):
         self.itemName    = itemName
         self.stackSize   = stackSize
         self.quantity    = quantity

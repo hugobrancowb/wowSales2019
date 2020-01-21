@@ -59,15 +59,15 @@ def importingSales(maxItems):
 
             exists = False
             for sale in allSales:
-                if sale.itemName    != transaction.itemName: continue
-                if sale.itemName    != transaction.stackSize: continue
-                if sale.quantity    != transaction.quantity: continue
-                if sale.price       != transaction.price:    continue
-                if sale.player      != transaction.otherPlayer:   continue
-                if sale.player      != transaction.player:   continue
-                if sale.time        != transaction.time:     continue
-                if sale.source      != transaction.source:   continue
-                exists               = True
+                if sale.itemName == transaction.itemName:
+                    if sale.stackSize == transaction.stackSize:
+                        if sale.quantity == transaction.quantity:
+                            if sale.price == transaction.price:
+                                if sale.otherPlayer == transaction.otherPlayer:
+                                    if sale.player == transaction.player:
+                                        if sale.time == transaction.time:
+                                            if sale.source == transaction.source:
+                                                exists = True
             
             if not exists: allSales.append(transaction)
             
