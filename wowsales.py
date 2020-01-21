@@ -6,6 +6,7 @@ import csv
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
+from plotdata import plot
 
 allSales = []
 
@@ -104,10 +105,19 @@ def main(allSales):
                             allSales.append(transactionFromJSON(info))                
                 except:
                     print("", end="")
-                importingSales(2)
+                importingSales(50)
                 saveJSONfile()
             if int(option) == 2:
-                print("", end="")
+                try:
+                    with open('allsales.json', encoding='utf-8') as jsonFile:
+                        data = json.load(jsonFile)
+                        allSales = []
+                        for info in data["Transactions"]:
+                            allSales.append(transactionFromJSON(info))                
+                except:
+                    print("Couldnt find JSON file.")
+                
+                plot(allSales)
             if int(option) == 3:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
