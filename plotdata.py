@@ -1,9 +1,13 @@
 from datetime import datetime, date, timedelta
+import matplotlib.pyplot as plt
 # import numpy as np
 
 def plot(allSales):
     calendar = create_list_of_days(allSales)
     income = count_balance(allSales, calendar)
+    plt.figure()
+    plt.plot(calendar, income) 
+    plt.show()
 
 def create_list_of_days(allSales):
     calendar_full = [datetime.today()] * len(allSales)
