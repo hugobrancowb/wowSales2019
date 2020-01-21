@@ -18,3 +18,14 @@ def plot(allSales):
     for calendar_day in calendar:
         print("{}".format(calendar_day.isoformat()))
 
+def list_of_days(calendar_full):
+    start = calendar_full[0]
+    end = calendar_full[len(calendar_full) - 1]
+    dia = start
+    calendar = []
+
+    while(dia != end):
+        calendar.append(dia)
+        dia = dia + timedelta(days=1)
+    
+    return calendar
