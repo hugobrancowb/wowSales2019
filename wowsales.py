@@ -22,10 +22,10 @@ def importingSales(maxItems):
 
             # itemString = row[0]
             itemName = row[1]
-            # stackSize = row[2]
+            stackSize = row[2]
             quantity = row[3]
             price = row[4] # preço, em cobres, por UNIDADE vendida. para total tem que multiplicar pela quantidade
-            # otherPlayer = row[5]
+            otherPlayer = row[5]
             player = row[6]            
             source = row[8]
 
@@ -48,8 +48,10 @@ def importingSales(maxItems):
 
             transaction = Transaction(
                     itemName,
+                    stackSize,
                     quantity,
                     price,
+                    otherPlayer,
                     player,
                     time,
                     source
@@ -58,8 +60,10 @@ def importingSales(maxItems):
             exists = False
             for sale in allSales:
                 if sale.itemName    != transaction.itemName: continue
+                if sale.itemName    != transaction.stackSize: continue
                 if sale.quantity    != transaction.quantity: continue
                 if sale.price       != transaction.price:    continue
+                if sale.player      != transaction.otherPlayer:   continue
                 if sale.player      != transaction.player:   continue
                 if sale.time        != transaction.time:     continue
                 if sale.source      != transaction.source:   continue
