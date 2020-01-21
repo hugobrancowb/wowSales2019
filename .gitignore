@@ -3,3 +3,5 @@ allsales.json
 
 # ignore python cache folder
 __pycache__/
+
+.vscode/
