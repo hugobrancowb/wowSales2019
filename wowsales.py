@@ -89,11 +89,12 @@ def main(allSales):
         print("2. Plot data.")
         print("3. Print sales record.")
         print("4. Delete existing data.")
+        print("5. Report for each month.")
         print("0. Exit.")
 
         option = input()
 
-        if (int(option) > 4) | ((int(option) < 0)):
+        if (int(option) > 5) | ((int(option) < 0)):
             print("Entrada invalida")
         else:            
             if int(option) == 1:
@@ -105,7 +106,7 @@ def main(allSales):
                             allSales.append(transactionFromJSON(info))                
                 except:
                     print("", end="")
-                importingSales(50)
+                importingSales(20)
                 saveJSONfile()
             if int(option) == 2:
                 try:
@@ -136,7 +137,9 @@ def main(allSales):
                     open('allsales.json', 'w', encoding='utf-8').close()
                     print("\tjson file deleted.")
                 except:
-                    print("\tcouldnt find json file.")                
+                    print("\tcouldnt find json file.")         
+            if int(option) == 5:
+                print("")       
             if int(option) == 0:
                 break
 ######

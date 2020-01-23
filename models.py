@@ -32,3 +32,18 @@ def transactionFromJSON(json):
         json["time"],
         json["source"]
     )
+
+class Product:
+    def __init__(self, name):
+        self.name = name
+        self.sales = []
+    
+    def new_sale(self, date, income):
+        self.sales.append([date, income])
+    
+    def get_sales(self):
+        return self.sales
+
+    def print_values(self):
+        for each in self.sales:
+            print("{}\t{}".format(each[0], each[1]))
