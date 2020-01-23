@@ -6,9 +6,11 @@ import csv
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
+from models import add_sales
 from plotdata import plot
 
 allSales = []
+lista_products = {}
 
 def importingSales(maxItems):
     # Vendas realizadas  =  Lucro bruto
@@ -77,12 +79,13 @@ def saveJSONfile():
     with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
         data = {}
         data["Transactions"] = []
+        data["Products"] = add_sales(allSales)
         for operation in allSales:
             data["Transactions"].append(operation.serialize())
         
         json.dump(data, jsonFile, sort_keys=True, indent=4)
 
-def main(allSales):
+def main():
     while(True):
         print("")
         print("1. Update sales data.")
@@ -106,7 +109,7 @@ def main(allSales):
                             allSales.append(transactionFromJSON(info))                
                 except:
                     print("", end="")
-                importingSales(20)
+                importingSales(100)
                 saveJSONfile()
             if int(option) == 2:
                 try:
@@ -139,8 +142,12 @@ def main(allSales):
                 except:
                     print("\tcouldnt find json file.")         
             if int(option) == 5:
-                print("")       
+                for each in lista_products:
+                    print("{}".format(each.name))
+                    for P in each.sales:
+                        print("  {}  {}".format(P[0], P[1]))
+                    print("")
             if int(option) == 0:
                 break
 ######
-main(allSales)
+main()

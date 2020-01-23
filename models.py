@@ -33,29 +33,16 @@ def transactionFromJSON(json):
         json["source"]
     )
 
-class Product:
-    def __init__(self, name: str):
-        self.name = name
-        self.sales = []
-
-    def new_sale(self, date, income: int):
-        self.sales.append([date, income])
-    
-    def get_sales(self):
-        return self.sales
-
-def add_Product(List: Product, name: str, date, income: int):
-    exists = False
-    i = 0
-    for product in List:
-        if product.name == name:
-            exists = True
+def add_sales(allSales):
+    lista = {}
+    for sale in allSales:
+        if sale.itemName in lista:
+            if sale.time in lista[sale.itemName]:
+                lista[sale.itemName][sale.time] += int(sale.price) * int(sale.quantity)
+            else:
+                lista[sale.itemName][sale.time] = int(sale.price) * int(sale.quantity)
         else:
-            i += 1
+            lista[sale.itemName] = {}
+            lista[sale.itemName][sale.time] = int(sale.price) * int(sale.quantity)
     
-    if exists == False:
-        List.append(Product(name))
-
-    List[i].new_sale(date, income)
-    
-    return List
+    return lista
