@@ -2,9 +2,9 @@ from datetime import datetime, date, timedelta
 
 def create_list_of_days(allSales):
     calendar_full = [datetime.today()] * len(allSales)
-    print("")
+    
     for i,entry in enumerate(allSales):
-        calendar_full[i] = which_day(entry.time)
+        calendar_full[i] = str_to_day(entry.time)
 
     calendar_full.sort()
     calendar = fill_list_of_days(calendar_full)
@@ -35,7 +35,7 @@ def fill_list_of_months(calendar_full):
     
     return calendar
 
-def which_day(string):
+def str_to_day(string):
     t = string.split("-")
     for j in range(0,3):
             t[j] = int(t[j])
