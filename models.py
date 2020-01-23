@@ -34,16 +34,28 @@ def transactionFromJSON(json):
     )
 
 class Product:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self.sales = []
-    
-    def new_sale(self, date, income):
+
+    def new_sale(self, date, income: int):
         self.sales.append([date, income])
     
     def get_sales(self):
         return self.sales
 
-    def print_values(self):
-        for each in self.sales:
-            print("{}\t{}".format(each[0], each[1]))
+def add_Product(List: Product, name: str, date, income: int):
+    exists = False
+    i = 0
+    for product in List:
+        if product.name == name:
+            exists = True
+        else:
+            i += 1
+    
+    if exists == False:
+        List.append(Product(name))
+
+    List[i].new_sale(date, income)
+    
+    return List
