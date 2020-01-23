@@ -27,7 +27,7 @@ def importingSales(maxItems):
             itemName = row[1]
             stackSize = row[2]
             quantity = row[3]
-            price = row[4] # preço, em cobres, por UNIDADE vendida. para total tem que multiplicar pela quantidade
+            price = row[4]
             otherPlayer = row[5]
             player = row[6]            
             source = row[8]
@@ -74,12 +74,14 @@ def importingSales(maxItems):
             
             if (counter >= maxItems): break
             else: counter = counter + 1
+    
+    add_sales(allSales, lista_products)
 
 def saveJSONfile():
     with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
         data = {}
         data["Transactions"] = []
-        data["Products"] = add_sales(allSales)
+        data["Products"] = lista_products
         for operation in allSales:
             data["Transactions"].append(operation.serialize())
         
@@ -117,7 +119,8 @@ def main():
                         data = json.load(jsonFile)
                         allSales = []
                         for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))                
+                            allSales.append(transactionFromJSON(info))
+                        add_sales(allSales, lista_products)        
                 except:
                     print("Couldnt find JSON file.")
                 
