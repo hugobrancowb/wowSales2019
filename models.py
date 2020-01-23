@@ -35,14 +35,17 @@ def transactionFromJSON(json):
 
 def add_sales(allSales):
     lista = {}
+    date = sale.time.split("-")
+    date = date[0]+"-"+date[1]
+    
     for sale in allSales:
         if sale.itemName in lista:
-            if sale.time in lista[sale.itemName]:
-                lista[sale.itemName][sale.time] += int(sale.price) * int(sale.quantity)
+            if date in lista[sale.itemName]:
+                lista[sale.itemName][date] += int(sale.price) * int(sale.quantity)
             else:
-                lista[sale.itemName][sale.time] = int(sale.price) * int(sale.quantity)
+                lista[sale.itemName][date] = int(sale.price) * int(sale.quantity)
         else:
             lista[sale.itemName] = {}
-            lista[sale.itemName][sale.time] = int(sale.price) * int(sale.quantity)
+            lista[sale.itemName][date] = int(sale.price) * int(sale.quantity)
     
     return lista
