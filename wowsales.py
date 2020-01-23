@@ -10,7 +10,6 @@ from models import add_sales
 from plotdata import plot
 
 allSales = []
-lista_products = {}
 
 def importingSales(maxItems):
     # Vendas realizadas  =  Lucro bruto
@@ -74,14 +73,12 @@ def importingSales(maxItems):
             
             if (counter >= maxItems): break
             else: counter = counter + 1
-    
-    add_sales(allSales, lista_products)
 
 def saveJSONfile():
     with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
         data = {}
         data["Transactions"] = []
-        data["Products"] = lista_products
+        data["Products"] = add_sales(allSales)
         for operation in allSales:
             data["Transactions"].append(operation.serialize())
         
@@ -108,11 +105,13 @@ def main():
                         data = json.load(jsonFile)
                         allSales = []
                         for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))                
+                            allSales.append(transactionFromJSON(info))           
                 except:
                     print("", end="")
+
                 importingSales(100)
                 saveJSONfile()
+            
             if int(option) == 2:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
@@ -120,11 +119,13 @@ def main():
                         allSales = []
                         for info in data["Transactions"]:
                             allSales.append(transactionFromJSON(info))
-                        add_sales(allSales, lista_products)        
+                        # add_sales(allSales)        
                 except:
                     print("Couldnt find JSON file.")
+                    exit()
                 
                 plot(allSales)
+            
             if int(option) == 3:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
@@ -132,24 +133,38 @@ def main():
                         allSales = []
                         for info in data["Transactions"]:
                             allSales.append(transactionFromJSON(info))
-
-                        print("")
                         for row in allSales:
                             print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
                 except:
                     print("Couldnt find JSON file.")
+                    exit()
+            
             if int(option) == 4:
                 try:
                     open('allsales.json', 'w', encoding='utf-8').close()
                     print("\tjson file deleted.")
                 except:
-                    print("\tcouldnt find json file.")         
+                    print("\tcouldnt find json file.")        
+            
             if int(option) == 5:
-                for each in lista_products:
-                    print("{}".format(each.name))
-                    for P in each.sales:
-                        print("  {}  {}".format(P[0], P[1]))
+                try:
+                    with open('allsales.json', encoding='utf-8') as jsonFile:
+                        data = json.load(jsonFile)
+                        allSales = []
+                        for info in data["Transactions"]:
+                            allSales.append(transactionFromJSON(info))
+                        lista_products = add_sales(allSales)
+                except:
+                    print("Couldnt find JSON file.")
+                    exit()
+                
+                # Access test for dictionary
+                for product_name, product_sales in lista_products.items():
+                    print(product_name)
+                    for date, income in product_sales.items():
+                        print("\t{}  {}".format(date, income))
                     print("")
+
             if int(option) == 0:
                 break
 ######
