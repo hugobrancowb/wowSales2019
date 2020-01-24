@@ -17,6 +17,14 @@ def plot(data: Data):
     plt.plot(calendar, np.add(income, purchases), 'k', linewidth = 1, alpha = 0.6) 
     plt.show()
 
+    acumulado = np.add(income, purchases)
+    for i in range(len(acumulado)):
+        if i != 0:
+            acumulado[i] += acumulado[i - 1]
+    plt.figure()
+    plt.plot(calendar, acumulado, 'k', linewidth = 1, alpha = 0.6) 
+    plt.show()
+
 
 def count_balance(sales, calendar):
     income = [0] * len(calendar)
