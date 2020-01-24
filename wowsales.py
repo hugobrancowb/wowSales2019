@@ -2,10 +2,9 @@
 # GitHub: hugobrancowb
 
 import csv
-import json
 from datetime import datetime
-from models import Transaction, transactionFromJSON
-from models import Data
+from jsonfiles import load_json, saveJSONfile
+from models import Data, Transaction
 from plotdata import plot
 from report_by_month import report_by_month
 
@@ -43,40 +42,13 @@ def importing_sales(data: Data):
                 time = time[0]
             else: continue
 
-            transaction = Transaction(
-                    itemName,
-                    stackSize,
-                    quantity,
-                    price,
-                    otherPlayer,
-                    player,
-                    time,
-                    source
-                )
+            transaction = Transaction(itemName, stackSize, quantity, price, otherPlayer, player, time, source)
 
             data.add_sales(transaction)
     
+    data.products = {}
     data.add_products()
 
-    return data
-
-def saveJSONfile(data: Data):
-    with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
-        data_to_save = {}
-        data_to_save["Transactions"] = []
-        data_to_save["Products"] = data.products
-        for operation in data.sales:
-            data_to_save["Transactions"].append(operation.serialize())
-        
-        json.dump(data_to_save, jsonFile, sort_keys=True, indent=4)
-
-def load_json():
-    with open('allsales.json', encoding='utf-8') as jsonFile:
-        data_from_file = json.load(jsonFile)
-        data = Data()
-        data.products = data_from_file["Products"]
-        for info in data_from_file["Transactions"]:
-            data.sales.append(transactionFromJSON(info))
     return data
 
 def main():
@@ -136,11 +108,10 @@ def main():
                 except:
                     print("Couldnt find JSON file.")
                     exit()
-                
-                # Access test for dictionary
+                    
                 report_by_month(data)
 
             if int(option) == 0:
                 break
-######
+
 main()
