@@ -9,10 +9,10 @@ def plot(data: Data):
     plt.plot(calendar, income) 
     plt.show()
 
-def count_balance(allSales, calendar):
+def count_balance(sales, calendar):
     balance = [0] * len(calendar)
 
-    for each_sale in allSales:
+    for each_sale in sales:
         i = calendar.index(str_to_day(each_sale.time))
         balance[i] += int(each_sale.quantity) * int(each_sale.price)
     

@@ -40,3 +40,9 @@ def str_to_day(string):
     for j in range(0,3):
             t[j] = int(t[j])
     return date(t[0], t[1], t[2])
+
+def str_to_month(string):
+    t = string.split("-")
+    for j in range(0,2):
+            t[j] = int(t[j])
+    return date(t[0], t[1]) 

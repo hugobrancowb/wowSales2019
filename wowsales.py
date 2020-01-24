@@ -7,6 +7,7 @@ from datetime import datetime
 from models import Transaction, transactionFromJSON
 from models import Data
 from plotdata import plot
+from report_by_month import report_by_month
 
 # maxItems DEVE sair após o programa ficar pronto
 def importing_sales(data: Data, maxItems: int):
@@ -84,8 +85,6 @@ def load_json():
     return data
 
 def main():
-    data = Data()
-
     while(True):
         print("")
         print("1. Update sales data.")
@@ -104,8 +103,9 @@ def main():
                 try:
                     data = load_json()           
                 except:
+                    data = Data()
                     print("", end="")
-
+                    
                 importing_sales(data, 100)
                 saveJSONfile(data)
             
@@ -129,6 +129,7 @@ def main():
             
             if int(option) == 4:
                 try:
+                    data = Data()
                     open('allsales.json', 'w', encoding='utf-8').close()
                     print("\tjson file deleted.")
                 except:
@@ -142,11 +143,7 @@ def main():
                     exit()
                 
                 # Access test for dictionary
-                for product_name, product_sales in data.products.items():
-                    print(product_name)
-                    for date, income in product_sales.items():
-                        print("\t{}  {}".format(date, income))
-                    print("")
+                report_by_month(data)
 
             if int(option) == 0:
                 break
