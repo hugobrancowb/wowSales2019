@@ -9,8 +9,7 @@ from models import Data
 from plotdata import plot
 from report_by_month import report_by_month
 
-# maxItems DEVE sair após o programa ficar pronto
-def importing_sales(data: Data, maxItems: int):
+def importing_sales(data: Data):
     # Vendas realizadas  =  Lucro bruto
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
@@ -21,7 +20,6 @@ def importing_sales(data: Data, maxItems: int):
                 counter = counter + 1
                 continue
 
-            # itemString = row[0]
             itemName = row[1]
             stackSize = row[2]
             quantity = row[3]
@@ -57,9 +55,6 @@ def importing_sales(data: Data, maxItems: int):
                 )
 
             data.add_sales(transaction)
-            
-            if (counter >= maxItems): break
-            else: counter = counter + 1
     
     data.add_products()
 
@@ -106,7 +101,7 @@ def main():
                     data = Data()
                     print("", end="")
                     
-                importing_sales(data, 5700)
+                importing_sales(data)
                 saveJSONfile(data)
             
             if int(option) == 2:
