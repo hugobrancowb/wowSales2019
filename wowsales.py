@@ -74,6 +74,15 @@ def saveJSONfile(data: Data):
         
         json.dump(data_to_save, jsonFile, sort_keys=True, indent=4)
 
+def load_json():
+    with open('allsales.json', encoding='utf-8') as jsonFile:
+        data_from_file = json.load(jsonFile)
+        data = Data()
+        data.products = data_from_file["Products"]
+        for info in data_from_file["Transactions"]:
+            data.sales.append(transactionFromJSON(info))
+    return data
+
 def main():
     data = Data()
 
@@ -93,12 +102,7 @@ def main():
         else:            
             if int(option) == 1:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data_from_file = json.load(jsonFile)
-                        data = Data()
-                        data.products = data_from_file["Products"]
-                        for info in data_from_file["Transactions"]:
-                            data.sales.append(transactionFromJSON(info))           
+                    data = load_json()           
                 except:
                     print("", end="")
 
@@ -107,12 +111,7 @@ def main():
             
             if int(option) == 2:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data_from_file = json.load(jsonFile)
-                        data = Data()
-                        data.products = data_from_file["Products"]
-                        for info in data_from_file["Transactions"]:
-                            data.sales.append(transactionFromJSON(info)) 
+                    data = load_json() 
                 except:
                     print("Couldnt find JSON file.")
                     exit()
@@ -121,14 +120,9 @@ def main():
             
             if int(option) == 3:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data_from_file = json.load(jsonFile)
-                        data = Data()
-                        data.products = data_from_file["Products"]
-                        for info in data_from_file["Transactions"]:
-                            data.sales.append(transactionFromJSON(info))
-                        for row in data.sales:
-                            print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
+                    data = load_json()
+                    for row in data.sales:
+                        print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
                 except:
                     print("Couldnt find JSON file.")
                     exit()
@@ -142,12 +136,7 @@ def main():
             
             if int(option) == 5:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data_from_file = json.load(jsonFile)
-                        data = Data()
-                        data.products = data_from_file["Products"]
-                        for info in data_from_file["Transactions"]:
-                            data.sales.append(transactionFromJSON(info))
+                    data = load_json()
                 except:
                     print("Couldnt find JSON file.")
                     exit()
