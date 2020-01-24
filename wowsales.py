@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # Hugo Branco
 # GitHub: hugobrancowb
 
@@ -6,12 +5,11 @@ import csv
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
-from models import add_sales
+from models import Data
 from plotdata import plot
 
-allSales = []
-
-def importingSales(maxItems):
+# maxItems DEVE sair após o programa ficar pronto
+def importing_sales(data: Data, maxItems):
     # Vendas realizadas  =  Lucro bruto
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
@@ -58,7 +56,7 @@ def importingSales(maxItems):
                 )
 
             exists = False
-            for sale in allSales:
+            for sale in data.sales:
                 if sale.itemName == transaction.itemName:
                     if sale.stackSize == transaction.stackSize:
                         if sale.quantity == transaction.quantity:
@@ -69,22 +67,28 @@ def importingSales(maxItems):
                                             if sale.source == transaction.source:
                                                 exists = True
             
-            if exists == False: allSales.append(transaction)
+            if exists == False: data.sales.append(transaction)
             
             if (counter >= maxItems): break
             else: counter = counter + 1
+    
+    data.add_products()
 
-def saveJSONfile():
+    return data
+
+def saveJSONfile(data: Data):
     with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
-        data = {}
-        data["Transactions"] = []
-        data["Products"] = add_sales(allSales)
-        for operation in allSales:
-            data["Transactions"].append(operation.serialize())
+        data_to_save = {}
+        data_to_save["Transactions"] = []
+        data_to_save["Products"] = data.products
+        for operation in data.sales:
+            data_to_save["Transactions"].append(operation.serialize())
         
-        json.dump(data, jsonFile, sort_keys=True, indent=4)
+        json.dump(data_to_save, jsonFile, sort_keys=True, indent=4)
 
 def main():
+    data = Data()
+
     while(True):
         print("")
         print("1. Update sales data.")
@@ -102,38 +106,40 @@ def main():
             if int(option) == 1:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))           
+                        data_from_file = json.load(jsonFile)
+                        data = Data()
+                        data.products = data_from_file["Products"]
+                        for info in data_from_file["Transactions"]:
+                            data.sales.append(transactionFromJSON(info))           
                 except:
                     print("", end="")
 
-                importingSales(100)
-                saveJSONfile()
+                importing_sales(data, 100)
+                saveJSONfile(data)
             
             if int(option) == 2:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))
-                        # add_sales(allSales)        
+                        data_from_file = json.load(jsonFile)
+                        data = Data()
+                        data.products = data_from_file["Products"]
+                        for info in data_from_file["Transactions"]:
+                            data.sales.append(transactionFromJSON(info)) 
                 except:
                     print("Couldnt find JSON file.")
                     exit()
                 
-                plot(allSales)
+                plot(data)
             
             if int(option) == 3:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))
-                        for row in allSales:
+                        data_from_file = json.load(jsonFile)
+                        data = Data()
+                        data.products = data_from_file["Products"]
+                        for info in data_from_file["Transactions"]:
+                            data.sales.append(transactionFromJSON(info))
+                        for row in data.sales:
                             print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
                 except:
                     print("Couldnt find JSON file.")
@@ -149,17 +155,17 @@ def main():
             if int(option) == 5:
                 try:
                     with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))
-                        lista_products = add_sales(allSales)
+                        data_from_file = json.load(jsonFile)
+                        data = Data()
+                        data.products = data_from_file["Products"]
+                        for info in data_from_file["Transactions"]:
+                            data.sales.append(transactionFromJSON(info))
                 except:
                     print("Couldnt find JSON file.")
                     exit()
                 
                 # Access test for dictionary
-                for product_name, product_sales in lista_products.items():
+                for product_name, product_sales in data.products.items():
                     print(product_name)
                     for date, income in product_sales.items():
                         print("\t{}  {}".format(date, income))

@@ -1,9 +1,9 @@
 from datetime import datetime, date, timedelta
 
-def create_list_of_days(allSales):
-    calendar_full = [datetime.today()] * len(allSales)
+def create_list_of_days(sales):
+    calendar_full = [datetime.today()] * len(sales)
     
-    for i,entry in enumerate(allSales):
+    for i,entry in enumerate(sales):
         calendar_full[i] = str_to_day(entry.time)
 
     calendar_full.sort()

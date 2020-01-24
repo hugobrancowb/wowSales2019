@@ -33,20 +33,26 @@ def transactionFromJSON(json):
         json["source"]
     )
 
-def add_sales(allSales):
-    lista = {}
+class Data:
+    def __init__(self, sales = [], products = {}):
+        self.sales = sales
+        self.products = products
 
-    for sale in allSales:
-        date = sale.time.split("-")
-        date = date[0]+"-"+date[1]
+    def add_products(self):
+        allSales = self.sales
+        lista = self.products
 
-        if sale.itemName in lista:
-            if date in lista[sale.itemName]:
-                lista[sale.itemName][date] += int(sale.price) * int(sale.quantity)
+        for sale in allSales:
+            date = sale.time.split("-")
+            date = date[0]+"-"+date[1]
+
+            if sale.itemName in lista:
+                if date in lista[sale.itemName]:
+                    lista[sale.itemName][date] += int(sale.price) * int(sale.quantity)
+                else:
+                    lista[sale.itemName][date] = int(sale.price) * int(sale.quantity)
             else:
+                lista[sale.itemName] = {}
                 lista[sale.itemName][date] = int(sale.price) * int(sale.quantity)
-        else:
-            lista[sale.itemName] = {}
-            lista[sale.itemName][date] = int(sale.price) * int(sale.quantity)
-    
-    return lista
+        
+        return self

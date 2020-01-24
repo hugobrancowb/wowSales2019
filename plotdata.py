@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 from datefunctions import create_list_of_days, str_to_day
-# import numpy as np
+from models import Data
 
-def plot(allSales):
-    calendar = create_list_of_days(allSales)
-    income = count_balance(allSales, calendar)
+def plot(data: Data):
+    calendar = create_list_of_days(data.sales)
+    income = count_balance(data.sales, calendar)
     plt.figure()
     plt.plot(calendar, income) 
     plt.show()
