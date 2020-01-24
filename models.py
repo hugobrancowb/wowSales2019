@@ -36,6 +36,7 @@ def transactionFromJSON(json):
 class Data:
     def __init__(self):
         self.sales = []
+        self.purchases = {}
         self.products = {}
 
     def add_sales(self, transaction: Transaction):
@@ -60,10 +61,9 @@ class Data:
 
     def add_products(self):
         for sale in self.sales:
+            date = sale.time.split("-")
+            date = date[0]+"-"+date[1]
             if int(sale.price) > 0:
-                date = sale.time.split("-")
-                date = date[0]+"-"+date[1]
-
                 if sale.itemName in self.products:
                     if date in self.products[sale.itemName]:
                         self.products[sale.itemName][date] += int(sale.price) * int(sale.quantity)
@@ -72,5 +72,14 @@ class Data:
                 else:
                     self.products[sale.itemName] = {}
                     self.products[sale.itemName][date] = int(sale.price) * int(sale.quantity)
+            else:
+                if sale.itemName in self.purchases:
+                    if date in self.purchases[sale.itemName]:
+                        self.purchases[sale.itemName][date] += int(sale.price) * int(sale.quantity)
+                    else:
+                        self.purchases[sale.itemName][date] = int(sale.price) * int(sale.quantity)
+                else:
+                    self.purchases[sale.itemName] = {}
+                    self.purchases[sale.itemName][date] = int(sale.price) * int(sale.quantity)
         
         return self

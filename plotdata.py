@@ -11,7 +11,10 @@ def plot(data: Data):
     plt.figure()
     plt.plot(calendar, income, 'b', linewidth = 1) 
     plt.plot(calendar, purchases, 'r', linewidth = 1) 
-    plt.plot(calendar, np.add(income, purchases), '--k', linewidth = 0.5, alpha = 0.6) 
+    plt.show()
+
+    plt.figure()
+    plt.plot(calendar, np.add(income, purchases), 'k', linewidth = 1, alpha = 0.6) 
     plt.show()
 
 

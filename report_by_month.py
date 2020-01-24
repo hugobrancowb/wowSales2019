@@ -9,16 +9,27 @@ def report_by_month(data: Data):
     calendar = df.create_list_of_months(data.sales)
 
     # builds a dataframe
-    dataframe_imt = product_dataframe(data)
+    [dataframe_pos, dataframe_neg] = product_dataframe(data)
     
     # print for each month
     for mes in calendar:
-        temp_imt = dataframe_imt[dataframe_imt['month'] == mes]
-        temp_imt = temp_imt.sort_values(by = 'total', ascending = False)
+        temp_pos = dataframe_pos[dataframe_pos['month'] == mes]
+        temp_pos = temp_pos.sort_values(by = 'total', ascending = False)
         print('Most sold in {} of {}:'.format(mes.strftime('%B'), mes.strftime('%Y')))
         for x in range(0, 5):
-            print('\t{} - {} gold'.format(temp_imt.iloc[x, 0], temp_imt.iloc[x, 2]/10000))
+            print('\t{} - {} gold earned'.format(temp_pos.iloc[x, 0], temp_pos.iloc[x, 2]/10000))
         print('')
+    
+    print('Enter "1" if you also want the expenses report: ', end='')
+    expenses_key = input()
+    if int(expenses_key) == 1:
+        for mes in calendar:
+            temp_neg = dataframe_neg[dataframe_neg['month'] == mes]
+            temp_neg = temp_neg.sort_values(by = 'total')
+            print('Most bought in {} of {}:'.format(mes.strftime('%B'), mes.strftime('%Y')))
+            for x in range(0, 5):
+                print('\t{} - {} gold spent'.format(temp_neg.iloc[x, 0], (-1)*temp_neg.iloc[x, 2]/10000))
+            print('')
 
 def product_dataframe(data: Data):
     item = []
@@ -32,7 +43,17 @@ def product_dataframe(data: Data):
             month.append(m)
             total.append(int(t))
 
-    df_imt = {'item': item, 'month': month, 'total': total}
-    dataframe_imt = pd.DataFrame(df_imt)
+    df_pos = {'item': item, 'month': month, 'total': total}
+    dataframe_pos = pd.DataFrame(df_pos)
+    
+    for i, entry in data.purchases.items():
+        for m, t in entry.items():
+            m = df.str_to_month(m)
+            item.append(i)
+            month.append(m)
+            total.append(int(t))
 
-    return dataframe_imt
+    df_neg = {'item': item, 'month': month, 'total': total}
+    dataframe_neg = pd.DataFrame(df_neg)
+
+    return [dataframe_pos, dataframe_neg]

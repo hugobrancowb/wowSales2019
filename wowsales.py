@@ -30,15 +30,15 @@ def importing_sales(data: Data):
             time = datetime.utcfromtimestamp(int(row[7]))
             
             # filter only auctions
-            if source != "Auction": continue
+            if source != 'Auction': continue
 
             # filter invalid product name
-            if itemName == "?": continue
+            if itemName == '?': continue
 
             # filter only 2019 transactions
             if (time.year == 2019):
                 time = time.isoformat()
-                time = time.split("T")
+                time = time.split('T')
                 time = time[0]
             else: continue
 
@@ -66,15 +66,15 @@ def importing_sales(data: Data):
             time = datetime.utcfromtimestamp(int(row[7]))
             
             # filter only auctions
-            if source != "Auction": continue
+            if source != 'Auction': continue
 
             # filter invalid product name
-            if itemName == "?": continue
+            if itemName == '?': continue
 
             # filter only 2019 transactions
             if (time.year == 2019):
                 time = time.isoformat()
-                time = time.split("T")
+                time = time.split('T')
                 time = time[0]
             else: continue
 
@@ -83,41 +83,44 @@ def importing_sales(data: Data):
             data.add_sales(transaction)
     
     data.products = {}
+    data.purchases = {}
     data.add_products()        
 
     return data
 
 def main():
     while(True):
-        print("")
-        print("1. Update sales data.")
-        print("2. Plot data.")
-        print("3. Print sales record.")
-        print("4. Delete existing data.")
-        print("5. Report for each month.")
-        print("0. Exit.")
+        print('')
+        print('1. Update sales data.')
+        print('2. Plot data.')
+        print('3. Print sales record.')
+        print('4. Delete existing data.')
+        print('5. Income report for each month.')
+        print('')
+        print('0. Exit.')
+        print('')
 
         option = input()
 
         if (int(option) > 5) | ((int(option) < 0)):
-            print("Entrada invalida")
+            print('Entrada invalida')
         else:            
             if int(option) == 1:
                 try:
                     data = load_json()           
                 except:
                     data = Data()
-                    print("", end="")
+                    print('', end='')
                     
                 importing_sales(data)
                 saveJSONfile(data)
-                print("\tjson file generated.")
+                print('\tjson file generated.')
             
             if int(option) == 2:
                 try:
                     data = load_json() 
                 except:
-                    print("Couldnt find JSON file.")
+                    print('Couldnt find JSON file.')
                     exit()
                 
                 plot(data)
@@ -126,24 +129,24 @@ def main():
                 try:
                     data = load_json()
                     for row in data.sales:
-                        print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
+                        print('{}\t {}\t{}\t{}\t{}'.format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
                 except:
-                    print("Couldnt find JSON file.")
+                    print('Couldnt find JSON file.')
                     exit()
             
             if int(option) == 4:
                 try:
                     data = Data()
                     open('allsales.json', 'w', encoding='utf-8').close()
-                    print("\tjson file deleted.")
+                    print('\tjson file deleted.')
                 except:
-                    print("\tcouldnt find json file.")        
+                    print('\tcouldnt find json file.')        
             
             if int(option) == 5:
                 try:
                     data = load_json()
                 except:
-                    print("Couldnt find JSON file.")
+                    print('Couldnt find JSON file.')
                     exit()
                     
                 report_by_month(data)
