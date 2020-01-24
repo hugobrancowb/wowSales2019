@@ -10,9 +10,9 @@ from report_by_month import report_by_month
 
 def importing_sales(data: Data):
     # Vendas realizadas  =  Lucro bruto
+    print('')
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
-        print('')
         counter = 0
         for row in reader:
             if counter == 0:
@@ -45,9 +45,45 @@ def importing_sales(data: Data):
             transaction = Transaction(itemName, stackSize, quantity, price, otherPlayer, player, time, source)
 
             data.add_sales(transaction)
+
+    # Compras realizadas
+    with open('data/Accounting_Azralon_purchases.csv', newline='', encoding='utf-8') as csvFile:
+        reader = csv.reader(csvFile, delimiter=',')
+        counter = 0
+        for row in reader:
+            if counter == 0:
+                counter = counter + 1
+                continue
+
+            itemName = row[1]
+            stackSize = row[2]
+            quantity = row[3]
+            price = int(row[4]) * (-1)
+            otherPlayer = row[5]
+            player = row[6]            
+            source = row[8]
+
+            time = datetime.utcfromtimestamp(int(row[7]))
+            
+            # filter only auctions
+            if source != "Auction": continue
+
+            # filter invalid product name
+            if itemName == "?": continue
+
+            # filter only 2019 transactions
+            if (time.year == 2019):
+                time = time.isoformat()
+                time = time.split("T")
+                time = time[0]
+            else: continue
+
+            transaction = Transaction(itemName, stackSize, quantity, price, otherPlayer, player, time, source)
+
+            data.add_sales(transaction)
     
     data.products = {}
-    data.add_products()
+    data.add_products()        
 
     return data
 
@@ -75,6 +111,7 @@ def main():
                     
                 importing_sales(data)
                 saveJSONfile(data)
+                print("\tjson file generated.")
             
             if int(option) == 2:
                 try:

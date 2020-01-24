@@ -1,23 +1,29 @@
-import matplotlib.pyplot as plt
 from datefunctions import create_list_of_days, str_to_day
 from models import Data
+#import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 def plot(data: Data):
     calendar = create_list_of_days(data.sales)
-    income = count_balance(data.sales, calendar)
+    [income, purchases] = count_balance(data.sales, calendar)
+    
     plt.figure()
-    plt.plot(calendar, income) 
+    plt.plot(calendar, income, 'b', linewidth = 1) 
+    plt.plot(calendar, purchases, 'r', linewidth = 1) 
+    plt.plot(calendar, np.add(income, purchases), '--k', linewidth = 0.5, alpha = 0.6) 
     plt.show()
 
+
 def count_balance(sales, calendar):
-    balance = [0] * len(calendar)
+    income = [0] * len(calendar)
+    purchases = [0] * len(calendar)
 
     for each_sale in sales:
         i = calendar.index(str_to_day(each_sale.time))
-        balance[i] += int(each_sale.quantity) * int(each_sale.price)
+        if int(each_sale.price) > 0:
+            income[i] += int(each_sale.quantity) * int(each_sale.price)
+        else:
+            purchases[i] += int(each_sale.quantity) * int(each_sale.price) * (1)
     
-    print("BALANCE:")
-    for i in range(0, len(calendar)):
-        print("{}\t{}".format(calendar[i].isoformat(), balance[i]))
-    
-    return balance
+    return [income, purchases]
