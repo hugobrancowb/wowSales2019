@@ -4,19 +4,8 @@ import datefunctions as df
 from models import Data
 
 def report_by_month(data: Data):
-    # fazer lista com todos os meses
-    for sales in data.products.keys():
-        for date in sales.values():
-            if min_date:
-                if date < min_date:
-                    min_date = date
-            else:
-                min_date = date
-            if max_date:
-                if date > max_date:
-                    max_date = date
-            else:
-                max_date = date
+    # make a list with every month in range
+    calendar = df.create_list_of_months(data.sales)
 
     # ver x com mais lucros em cada mes
     print("")

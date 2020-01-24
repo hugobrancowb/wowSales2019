@@ -106,7 +106,7 @@ def main():
                     data = Data()
                     print("", end="")
                     
-                importing_sales(data, 100)
+                importing_sales(data, 5700)
                 saveJSONfile(data)
             
             if int(option) == 2:
