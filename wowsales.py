@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # Hugo Branco
 # GitHub: hugobrancowb
 
@@ -6,11 +5,11 @@ import csv
 import json
 from datetime import datetime
 from models import Transaction, transactionFromJSON
+from models import Data
 from plotdata import plot
+from report_by_month import report_by_month
 
-allSales = []
-
-def importingSales(maxItems):
+def importing_sales(data: Data):
     # Vendas realizadas  =  Lucro bruto
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
@@ -21,11 +20,10 @@ def importingSales(maxItems):
                 counter = counter + 1
                 continue
 
-            # itemString = row[0]
             itemName = row[1]
             stackSize = row[2]
             quantity = row[3]
-            price = row[4] # preço, em cobres, por UNIDADE vendida. para total tem que multiplicar pela quantidade
+            price = row[4]
             otherPlayer = row[5]
             player = row[6]            
             source = row[8]
@@ -56,88 +54,93 @@ def importingSales(maxItems):
                     source
                 )
 
-            exists = False
-            for sale in allSales:
-                if sale.itemName == transaction.itemName:
-                    if sale.stackSize == transaction.stackSize:
-                        if sale.quantity == transaction.quantity:
-                            if sale.price == transaction.price:
-                                if sale.otherPlayer == transaction.otherPlayer:
-                                    if sale.player == transaction.player:
-                                        if sale.time == transaction.time:
-                                            if sale.source == transaction.source:
-                                                exists = True
-            
-            if exists == False: allSales.append(transaction)
-            
-            if (counter >= maxItems): break
-            else: counter = counter + 1
+            data.add_sales(transaction)
+    
+    data.add_products()
 
-def saveJSONfile():
+    return data
+
+def saveJSONfile(data: Data):
     with open('allsales.json', 'w', encoding='utf-8') as jsonFile:
-        data = {}
-        data["Transactions"] = []
-        for operation in allSales:
-            data["Transactions"].append(operation.serialize())
+        data_to_save = {}
+        data_to_save["Transactions"] = []
+        data_to_save["Products"] = data.products
+        for operation in data.sales:
+            data_to_save["Transactions"].append(operation.serialize())
         
-        json.dump(data, jsonFile, sort_keys=True, indent=4)
+        json.dump(data_to_save, jsonFile, sort_keys=True, indent=4)
 
-def main(allSales):
+def load_json():
+    with open('allsales.json', encoding='utf-8') as jsonFile:
+        data_from_file = json.load(jsonFile)
+        data = Data()
+        data.products = data_from_file["Products"]
+        for info in data_from_file["Transactions"]:
+            data.sales.append(transactionFromJSON(info))
+    return data
+
+def main():
     while(True):
         print("")
         print("1. Update sales data.")
         print("2. Plot data.")
         print("3. Print sales record.")
         print("4. Delete existing data.")
+        print("5. Report for each month.")
         print("0. Exit.")
 
         option = input()
 
-        if (int(option) > 4) | ((int(option) < 0)):
+        if (int(option) > 5) | ((int(option) < 0)):
             print("Entrada invalida")
         else:            
             if int(option) == 1:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))                
+                    data = load_json()           
                 except:
+                    data = Data()
                     print("", end="")
-                importingSales(50)
-                saveJSONfile()
+                    
+                importing_sales(data)
+                saveJSONfile(data)
+            
             if int(option) == 2:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))                
+                    data = load_json() 
                 except:
                     print("Couldnt find JSON file.")
+                    exit()
                 
-                plot(allSales)
+                plot(data)
+            
             if int(option) == 3:
                 try:
-                    with open('allsales.json', encoding='utf-8') as jsonFile:
-                        data = json.load(jsonFile)
-                        allSales = []
-                        for info in data["Transactions"]:
-                            allSales.append(transactionFromJSON(info))
-
-                        print("")
-                        for row in allSales:
-                            print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
+                    data = load_json()
+                    for row in data.sales:
+                        print("{}\t {}\t{}\t{}\t{}".format(row.itemName[0:15],row.quantity,row.price,row.time,row.source))
                 except:
                     print("Couldnt find JSON file.")
+                    exit()
+            
             if int(option) == 4:
                 try:
+                    data = Data()
                     open('allsales.json', 'w', encoding='utf-8').close()
                     print("\tjson file deleted.")
                 except:
-                    print("\tcouldnt find json file.")                
+                    print("\tcouldnt find json file.")        
+            
+            if int(option) == 5:
+                try:
+                    data = load_json()
+                except:
+                    print("Couldnt find JSON file.")
+                    exit()
+                
+                # Access test for dictionary
+                report_by_month(data)
+
             if int(option) == 0:
                 break
 ######
-main(allSales)
+main()
