@@ -38,6 +38,26 @@ class Data:
         self.sales = sales
         self.products = products
 
+    def add_sales(self, transaction: Transaction):
+        exists = False
+        if self.sales:
+            for sale in self.sales:
+                if sale.itemName == transaction.itemName:
+                    if sale.stackSize == transaction.stackSize:
+                        if sale.quantity == transaction.quantity:
+                            if sale.price == transaction.price:
+                                if sale.otherPlayer == transaction.otherPlayer:
+                                    if sale.player == transaction.player:
+                                        if sale.time == transaction.time:
+                                            if sale.source == transaction.source:
+                                                exists = True
+            
+            if exists == False: self.sales.append(transaction)
+        else:
+            self.sales.append(transaction)
+
+        return self
+
     def add_products(self):
         allSales = self.sales
         lista = self.products

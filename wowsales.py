@@ -9,7 +9,7 @@ from models import Data
 from plotdata import plot
 
 # maxItems DEVE sair após o programa ficar pronto
-def importing_sales(data: Data, maxItems):
+def importing_sales(data: Data, maxItems: int):
     # Vendas realizadas  =  Lucro bruto
     with open('data/Accounting_Azralon_sales.csv', newline='', encoding='utf-8') as csvFile:
         reader = csv.reader(csvFile, delimiter=',')
@@ -55,19 +55,7 @@ def importing_sales(data: Data, maxItems):
                     source
                 )
 
-            exists = False
-            for sale in data.sales:
-                if sale.itemName == transaction.itemName:
-                    if sale.stackSize == transaction.stackSize:
-                        if sale.quantity == transaction.quantity:
-                            if sale.price == transaction.price:
-                                if sale.otherPlayer == transaction.otherPlayer:
-                                    if sale.player == transaction.player:
-                                        if sale.time == transaction.time:
-                                            if sale.source == transaction.source:
-                                                exists = True
-            
-            if exists == False: data.sales.append(transaction)
+            data.add_sales(transaction)
             
             if (counter >= maxItems): break
             else: counter = counter + 1
