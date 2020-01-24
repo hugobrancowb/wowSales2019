@@ -46,6 +46,7 @@ def importing_sales(data: Data):
 
             data.add_sales(transaction)
     
+    data.products = {}
     data.add_products()
 
     return data
