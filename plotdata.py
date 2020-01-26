@@ -21,6 +21,7 @@ def plot(data: Data):
     for i in range(len(acumulado)):
         if i != 0:
             acumulado[i] += acumulado[i - 1]
+    print("Jan~Ago: {}\nSet~Dez: {}".format(acumulado[217]/10000, (16316122304 - acumulado[217])/10000))
     plt.figure()
     plt.plot(calendar, acumulado, 'k', linewidth = 1, alpha = 0.6) 
     plt.show()

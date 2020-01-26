@@ -17,9 +17,35 @@ def report_by_month(data: Data):
         temp_pos = temp_pos.sort_values(by = 'total', ascending = False)
         print('Most sold in {} of {}:'.format(mes.strftime('%B'), mes.strftime('%Y')))
         for x in range(0, 5):
-            print('\t{} - {} gold earned'.format(temp_pos.iloc[x, 0], temp_pos.iloc[x, 2]/10000))
+            print('{} - {} g'.format(temp_pos.iloc[x, 0], temp_pos.iloc[x, 2]/10000))
         print('')
     
+    # most sold entire year
+    total_dic = {}
+    for item, k in data.products.items():
+        for gold in k.values():
+            if item in total_dic:
+                total_dic[item] += gold
+            else:
+                total_dic[item] = gold
+
+    item_name = []
+    item_income = []
+    for name, income in total_dic.items():
+        item_name.append(name)
+        item_income.append(income)
+    
+    tot_pos = {'item': item_name, 'income': item_income}
+    total_pos = pd.DataFrame(tot_pos)
+    total_pos = total_pos.sort_values(by = 'income', ascending = False)
+    print('Most sold: entire year')
+    for x in range(0, 5):
+        print('{} - {} g'.format(total_pos.iloc[x, 0], total_pos.iloc[x, 1]/10000))
+    print('')
+    
+    #
+    # #
+    # # # Expenses # # #
     print('Enter "1" if you also want the expenses report: ', end='')
     expenses_key = input()
     if int(expenses_key) == 1:
@@ -28,8 +54,31 @@ def report_by_month(data: Data):
             temp_neg = temp_neg.sort_values(by = 'total')
             print('Most bought in {} of {}:'.format(mes.strftime('%B'), mes.strftime('%Y')))
             for x in range(0, 5):
-                print('\t{} - {} gold spent'.format(temp_neg.iloc[x, 0], (-1)*temp_neg.iloc[x, 2]/10000))
+                print('{} - {} g'.format(temp_neg.iloc[x, 0], (-1)*temp_neg.iloc[x, 2]/10000))
             print('')
+    
+    # most bought entire year
+    total_dic = {}
+    for item, k in data.purchases.items():
+        for gold in k.values():
+            if item in total_dic:
+                total_dic[item] += gold
+            else:
+                total_dic[item] = gold
+
+    item_name = []
+    item_income = []
+    for name, income in total_dic.items():
+        item_name.append(name)
+        item_income.append(income)
+
+    tot_pos = {'item': item_name, 'outcome': item_income}
+    total_pos = pd.DataFrame(tot_pos)
+    total_pos = total_pos.sort_values(by = 'outcome')
+    print('Most bought: entire year')
+    for x in range(0, 5):
+        print('{} - {} g'.format(total_pos.iloc[x, 0], total_pos.iloc[x, 1]/10000))
+    print('')
 
 def product_dataframe(data: Data):
     item = []
