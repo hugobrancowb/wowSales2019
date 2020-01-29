@@ -9,8 +9,8 @@ This is my first Python code, written as i studied the language. The results fro
 Put the `.csv` files exported by [TradeSkillMaster](https://www.tradeskillmaster.com/) addon inside `data` folder and follow the instructions.
 
 ### Options
-```bash
-> python wowsales.py
+```
+$ python wowsales.py
 
 1. Update sales data.
 2. Plot data.
