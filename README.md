@@ -29,3 +29,10 @@ Option | Description
 **4** | Deletes all previously imported data.
 **5** | Shows most profitable products sold and its respectively income for each month of 2019. Also, optionally shows most expenseful items bought through the year.
 **0** | Closes app.
+
+#### Plots from option 2
+![Income vs. Outcome of gold from each day through the year.](https://github.com/hugobrancowb/wowSales2019/blob/master/plots/Figure_1.png)
+
+![Balance (income - outcome) from each day through the year.](https://github.com/hugobrancowb/wowSales2019/blob/master/plots/Figure_2.png)
+
+![Cumulative gold over time (liquid profit).](https://github.com/hugobrancowb/wowSales2019/blob/master/plots/Figure_3.png)
